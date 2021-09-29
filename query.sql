@@ -99,3 +99,12 @@ ON `course_teacher`.`teacher_id` = `teachers`.`id`
 WHERE `departments`.`name` = 'Dipartimento di Matematica';
 
 -- 7. BONUS: Selezionare per ogni studente quanti tentativi d’esame ha sostenuto per superare ciascuno dei suoi esami
+
+SELECT `students`.`name`, `students`.`surname`, `exams`.`course_id`, SUM((`exam_student`.`vote` < 18) + 1) AS 'totale'
+FROM `students`
+JOIN `exam_student`
+ON `students`.`id` = `exam_student`.`student_id`
+JOIN `exams`
+ON `exam_student`.`exam_id` = `exams`.`id`
+GROUP BY `students`.`name`,`students`.`surname`, `exams`.`course_id`
+ORDER BY `students`.`name`;
